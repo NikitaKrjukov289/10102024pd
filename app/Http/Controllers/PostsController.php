@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 
+
 class PostsController extends Controller
 {
     public function __construct()
@@ -19,7 +20,8 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return view('blog.index')
+        $post = Post::all();
+        return view('blog.index', ['post' => $post])
             ->with('posts', Post::orderBy('updated_at', 'DESC')->get());
     }
 
@@ -30,6 +32,7 @@ class PostsController extends Controller
      */
     public function create()
     {
+
         return view('blog.create');
     }
 
@@ -52,6 +55,7 @@ class PostsController extends Controller
         $request->image->move(public_path('images'), $newImageName);
 
         Post::create([
+            
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'slug' => SlugService::createSlug(Post::class, 'slug', $request->title),
@@ -86,9 +90,9 @@ class PostsController extends Controller
      * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function edit($slug)
+    public function edit(Post $post)
     {
-
+        return view('blog.edit', ['post' => $post]);
     }
 
     /**
@@ -102,7 +106,8 @@ class PostsController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'description' => 'required',
+            'description' => 'required'
+            
         ]);
 
         Post::where('slug', $slug)

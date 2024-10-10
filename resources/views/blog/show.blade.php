@@ -61,14 +61,14 @@
         <div>
             <h3>Comments</h3>
             @foreach ($post->comments as $comment)
-                <p></p>
+                <p>{{ $comment->content }}</p>
             @endforeach
         </div>
     @endif
 
     @if (Auth::check())
         <div>
-            <form action="/blog/{{$post->slug}}/comments/create" method="post">
+            <form action="{{ 'route (posts.addComment)', $post}}" method="post">
                 @csrf
                 <label for="commentContent">Comment</label>
                 <textarea class="resize rounded-md" name="content" id="commentContent"></textarea>

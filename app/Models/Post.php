@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use App\Http\Controllers\PostsController;
+
 
 class Post extends Model
 {
@@ -12,6 +14,8 @@ class Post extends Model
     use Sluggable;
 
     protected $fillable = ['title', 'slug', 'description', 'image_path', 'user_id'];
+
+   
 
     public function user()
     {
@@ -27,7 +31,8 @@ class Post extends Model
     {
         return [
             'slug' => [
-                'source' => 'title'
+                'source' => 'title',
+                'source' => 'description'
             ]
         ];
     }
